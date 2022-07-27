@@ -7,7 +7,7 @@
     const choice = ref(null)
     const computerChoice=ref(null)
     const verdict = ref(null)
-
+    const status= ref(0)
 
     const outcomes = {
         rock:{
@@ -46,12 +46,23 @@
         if(outcome==='win'){
            wins.value++;
            verdict.value="You Win!"
+           status.value=1
         }else if(outcome==='loss'){
           losses.value++;
           verdict.value="You Lose!"
+          status.value=-1
         }else{
           draws.value++;
           verdict.value="It is a Draw!"
+          status.value=2
+        }
+        
+        if(status==1){
+
+        }else if(status==-1){
+
+        }else{
+
         }
 
         SaveGame()
@@ -126,15 +137,19 @@
 
            </div>
            <div v-else>
-              <div class="text-3xl mb-4 ">
-                 You picked <span class="text-pink-500">{{ choice }}</span>
+            <div class="boxes">
+              <div class="text-3xl mb-4 text-center box">
+                 <span class="text-green-500">You</span>
+                 <img :src="`src/assets/${choice}.svg`"  class="mx-auto" >
               </div>
-               <div class="text-3xl mb-4 ">
-                 The computed picked <span class="text-green-500">{{ computerChoice }}</span>
+               <div class="text-3xl mb-4 text-center box">
+                 <span class="text-pink-500">Computer</span>
+                 <img :src="`src/assets/${computerChoice}.svg`"  class="mx-auto">
               </div>
+            </div>
 
-              <div class="text-6xl mb-4 ">
-                  {{ verdict }}
+              <div class="text-6xl my-4 " :class=" status===1 ? 'text-green-500' : status===-1  ?   'text-red-500' : 'text-orange-500' ">
+                  {{ verdict }}  <img style="display:inline;width:70px" :src=" status===1 ? 'src/assets/win.png' : status===-1  ?   'src/assets/lose.png' : 'src/assets/draw.png' ">
               </div>
               <button @click="ResetRound" class="bg-pink-500 text-lg py-2 px-4">Reset</button>
            </div>
@@ -153,5 +168,15 @@
 </template>
 
 <style scoped>
-
+  .boxes{
+    display:flex;
+    justify-content: space-around;
+  }
+  .boxes .box{
+      border: 1px solid gray;
+      padding: 20px;
+  }
+  .boxes .box img{
+    width:10rem; 
+  }
 </style>
